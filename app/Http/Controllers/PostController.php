@@ -7,59 +7,65 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $posts = Post::latest()->paginate(5);
+
+        return view('posts.index', compact('posts'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('posts.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'title'   => 'required|string|min:3|max:255',
+            'content' => 'required|string|min:10',
+        ]);
+
+        Post::create($data);
+
+        return redirect()->route('posts.index')
+            ->with('success', 'Post berhasil ditambahkan.');
     }
 
-    /**
-     * Display the specified resource.
-     */
+    // Route Model Binding: Laravel otomatis mencari Post berdasarkan {post} di URL
     public function show(Post $post)
     {
-        //
+        return view('posts.show', compact('post'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Post $post)
     {
-        //
+        return view('posts.edit', compact('post'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Post $post)
     {
-        //
+        $data = $request->validate([
+            'title'   => 'required|string|min:3|max:255',
+            'content' => 'required|string|min:10',
+        ]);
+
+        $post->update($data);
+
+        return redirect()->route('posts.index')
+            ->with('success', 'Post berhasil diperbarui.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Post $post)
     {
-        //
+        try {
+            $post->delete();
+
+            return redirect()->route('posts.index')
+                ->with('success', 'Post berhasil dihapus.');
+        } catch (\Throwable $e) {
+            return redirect()->route('posts.index')
+                ->with('error', 'Gagal menghapus post.');
+        }
     }
 }
