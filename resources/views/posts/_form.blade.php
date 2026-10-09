@@ -16,3 +16,20 @@
         <div class="invalid-feedback">{{ $message }}</div>
     @enderror
 </div>
+
+<div class="mb-3">
+    <label for="image" class="form-label">Gambar (opsional, JPG/PNG maks 2 MB)</label>
+
+    @if (!empty($post->image))
+        <div class="mb-2">
+            <img src="{{ asset('storage/' . $post->image) }}" alt="Gambar saat ini"
+                 class="img-thumbnail" style="max-height: 150px">
+        </div>
+    @endif
+
+    <input type="file" name="image" id="image"
+           class="form-control @error('image') is-invalid @enderror">
+    @error('image')
+        <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+</div>

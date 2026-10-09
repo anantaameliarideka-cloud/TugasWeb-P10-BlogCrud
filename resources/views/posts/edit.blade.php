@@ -4,7 +4,7 @@
 
 @section('content')
     <x-card title="Edit Post">
-        <form action="{{ route('posts.update', $post) }}" method="POST">
+        <form action="{{ route('posts.update', $post) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             @include('posts._form')

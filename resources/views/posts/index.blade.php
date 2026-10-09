@@ -4,6 +4,20 @@
 
 @section('content')
     <x-card title="Daftar Post">
+
+        <form action="{{ route('posts.index') }}" method="GET" class="row g-2 mb-3">
+            <div class="col">
+                <input type="text" name="q" class="form-control"
+                       placeholder="Cari judul..." value="{{ request('q') }}">
+            </div>
+            <div class="col-auto">
+                <button class="btn btn-primary">Cari</button>
+                @if (request('q'))
+                    <a href="{{ route('posts.index') }}" class="btn btn-outline-secondary">Reset</a>
+                @endif
+            </div>
+        </form>
+
         <table class="table table-hover align-middle">
             <thead>
                 <tr>
@@ -33,7 +47,9 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="4" class="text-center text-muted">Belum ada post.</td>
+                        <td colspan="4" class="text-center text-muted">
+                            {{ request('q') ? 'Tidak ada post yang cocok.' : 'Belum ada post.' }}
+                        </td>
                     </tr>
                 @endforelse
             </tbody>

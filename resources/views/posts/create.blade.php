@@ -4,7 +4,7 @@
 
 @section('content')
     <x-card title="Tulis Post Baru">
-        <form action="{{ route('posts.store') }}" method="POST">
+        <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             @include('posts._form')
             <button type="submit" class="btn btn-primary">Simpan</button>
